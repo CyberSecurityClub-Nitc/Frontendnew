@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Globe, GitHub, Lock, Code, Shield, Database, ExternalLink } from 'lucide-react';
+import { Globe, Github, Lock, Code, Shield, Database, ExternalLink } from 'lucide-react';
 
 interface Project {
   id: number;
@@ -99,7 +98,7 @@ const ProjectsSection: React.FC = () => {
                     rel="noopener noreferrer"
                     className="flex items-center text-gray-300 hover:text-cyber-green transition-colors"
                   >
-                    <GitHub className="h-5 w-5 mr-1" />
+                    <Github className="h-5 w-5 mr-1" />
                     Code
                   </a>
                 )}
@@ -127,7 +126,7 @@ const ProjectsSection: React.FC = () => {
             rel="noopener noreferrer"
             className="inline-flex items-center px-6 py-3 border border-cyber-green text-cyber-green rounded-md hover:bg-cyber-green/10 transition-colors"
           >
-            <GitHub className="mr-2 h-5 w-5" />
+            <Github className="mr-2 h-5 w-5" />
             Visit Our GitHub Organization
           </a>
         </div>

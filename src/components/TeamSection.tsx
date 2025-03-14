@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { GitHub, Linkedin, Mail } from 'lucide-react';
+import { Github, Linkedin, Mail } from 'lucide-react';
 
 interface TeamMember {
   id: number;
@@ -118,7 +117,7 @@ const TeamSection: React.FC = () => {
                       className="text-gray-400 hover:text-cyber-green transition-colors"
                       aria-label={`${member.name}'s GitHub`}
                     >
-                      <GitHub className="h-5 w-5" />
+                      <Github className="h-5 w-5" />
                     </a>
                   )}
                   

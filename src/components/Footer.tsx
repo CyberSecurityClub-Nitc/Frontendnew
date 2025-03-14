@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Shield, GitHub, Twitter, Instagram, LinkedinIcon, ArrowUp } from 'lucide-react';
+import { Shield, Github, Twitter, Instagram, LinkedinIcon, ArrowUp } from 'lucide-react';
 
 const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -22,7 +21,7 @@ const Footer: React.FC = () => {
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-cyber-green transition-colors">
-                <GitHub className="h-5 w-5" />
+                <Github className="h-5 w-5" />
               </a>
               <a href="#" className="text-gray-400 hover:text-cyber-green transition-colors">
                 <Twitter className="h-5 w-5" />
