@@ -39,7 +39,7 @@ const Navbar: React.FC = () => {
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center">
             <Shield className="h-8 w-8 text-cyber-green mr-2" />
-            <span className="text-white font-mono font-bold text-lg">NITC<span className="text-cyber-green">Sec</span></span>
+            <span className="text-white font-mono font-bold text-lg"><span className="text-cyber-green">Sec</span></span>
           </div>
           
           {/* Desktop Nav */}
