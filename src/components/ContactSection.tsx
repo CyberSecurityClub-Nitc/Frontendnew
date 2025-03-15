@@ -16,23 +16,40 @@ const ContactSection: React.FC = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate form submission
-    setTimeout(() => {
-      setFormStatus('success');
-      // Reset form after success
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-      });
-      // Reset status after 3 seconds
-      setTimeout(() => setFormStatus('idle'), 3000);
-    }, 800);
-  };
+    setFormStatus('idle'); // Reset status
 
+    try {
+      const response = await fetch('http://localhost:1337/api/contact-messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: {
+            name: formData.name,
+            email: formData.email,
+            subject: formData.subject,
+            message: formData.message,
+          },
+        }),
+      });
+  
+      if (response.ok) {
+        setFormStatus('success');
+        setFormData({ name: '', email: '', subject: '', message: '' }); // Reset form
+      } else {
+        setFormStatus('error');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setFormStatus('error');
+    }
+  
+    // Reset status after 3 seconds
+    setTimeout(() => setFormStatus('idle'), 3000);
+  };
   return (
     <section id="contact" className="py-20 bg-cyber-blue relative overflow-hidden">
       <div className="absolute inset-0 matrix-grid opacity-10"></div>

@@ -1,81 +1,54 @@
-import React from 'react';
-import { Github, Linkedin, Mail } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Github, Linkedin, Mail } from "lucide-react";
 
+// TeamMember interface matches your API structure
 interface TeamMember {
   id: number;
+  documentId: string;
   name: string;
   role: string;
   specialization: string;
-  image: string;
-  github?: string;
-  linkedin?: string;
   email?: string;
+  linkedin?: string;
+  github?: string;
+  profilePicture?: string;
 }
 
 const TeamSection: React.FC = () => {
-  const teamMembers: TeamMember[] = [
-    {
-      id: 1,
-      name: "Alex Johnson",
-      role: "President",
-      specialization: "Network Security",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200&h=200",
-      github: "#",
-      linkedin: "#",
-      email: "alex@example.com"
-    },
-    {
-      id: 2,
-      name: "Sarah Chen",
-      role: "Vice President",
-      specialization: "Web Security",
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200&h=200",
-      github: "#",
-      linkedin: "#",
-      email: "sarah@example.com"
-    },
-    {
-      id: 3,
-      name: "Rahul Sharma",
-      role: "Technical Lead",
-      specialization: "Malware Analysis",
-      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200&h=200",
-      github: "#",
-      linkedin: "#",
-      email: "rahul@example.com"
-    },
-    {
-      id: 4,
-      name: "Priya Patel",
-      role: "CTF Coordinator",
-      specialization: "Cryptography",
-      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200&h=200",
-      github: "#",
-      linkedin: "#",
-      email: "priya@example.com"
-    },
-    {
-      id: 5,
-      name: "Michael Okonkwo",
-      role: "Workshop Coordinator",
-      specialization: "Penetration Testing",
-      image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200&h=200",
-      github: "#",
-      linkedin: "#",
-      email: "michael@example.com"
-    },
-    {
-      id: 6,
-      name: "Aisha Khan",
-      role: "Outreach Coordinator",
-      specialization: "Digital Forensics",
-      image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200&h=200",
-      github: "#",
-      linkedin: "#",
-      email: "aisha@example.com"
-    }
-  ];
+  const [members, setMembers] = useState<TeamMember[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        const response = await axios.get("http://localhost:1337/api/team-members?populate=*");
+
+        // Transform API response to match TeamMember interface
+        const formattedMembers: TeamMember[] = response.data.data.map((member: any) => ({
+          id: member.id,
+          documentId: member.documentId,
+          name: member.Name,
+          role: member.Role,
+          specialization: member.Specialization,
+          email: member.Email,
+          linkedin: member.LinkedIn,
+          github: member.Github,
+          profilePicture: member.Profile_Picture?.url
+            ? `http://localhost:1337${member.Profile_Picture.url}`
+            : "https://via.placeholder.com/200", // Fallback image
+        }));
+
+        setMembers(formattedMembers);
+      } catch (err) {
+        setError("Failed to load members");
+        console.error(err);
+      }
+    };
+
+    fetchMembers();
+  }, []);
+const mail=`https://mail.google.com/mail/?view=cm&fs=1&to=`
   return (
     <section id="team" className="py-20 bg-cyber-blue">
       <div className="section-container">
@@ -83,17 +56,16 @@ const TeamSection: React.FC = () => {
         <p className="text-gray-300 mb-10 max-w-3xl">
           Meet the passionate cybersecurity enthusiasts who lead our club initiatives, organize events, and drive our community forward.
         </p>
-        
+
+        {error && <p className="text-red-500 text-center">{error}</p>}
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {teamMembers.map((member) => (
-            <div 
-              key={member.id} 
-              className="glass-card overflow-hidden rounded-xl card-hover"
-            >
+          {members.map((member) => (
+            <div key={member.id} className="glass-card overflow-hidden rounded-xl card-hover">
               <div className="relative h-60 mb-4 overflow-hidden">
-                <img 
-                  src={member.image} 
-                  alt={member.name} 
+                <img
+                  src={member.profilePicture}
+                  alt={member.name}
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-cyber-blue/90 to-transparent"></div>
@@ -102,17 +74,17 @@ const TeamSection: React.FC = () => {
                   <p className="text-cyber-green font-medium">{member.role}</p>
                 </div>
               </div>
-              
+
               <div className="p-4">
                 <p className="text-gray-300 text-sm mb-4">
                   <span className="text-white font-medium">Specialization:</span> {member.specialization}
                 </p>
-                
+
                 <div className="flex justify-start space-x-4 mt-2">
                   {member.github && (
-                    <a 
-                      href={member.github} 
-                      target="_blank" 
+                    <a
+                      href={member.github}
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="text-gray-400 hover:text-cyber-green transition-colors"
                       aria-label={`${member.name}'s GitHub`}
@@ -120,11 +92,11 @@ const TeamSection: React.FC = () => {
                       <Github className="h-5 w-5" />
                     </a>
                   )}
-                  
+
                   {member.linkedin && (
-                    <a 
-                      href={member.linkedin} 
-                      target="_blank" 
+                    <a
+                      href={member.linkedin}
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="text-gray-400 hover:text-cyber-green transition-colors"
                       aria-label={`${member.name}'s LinkedIn`}
@@ -132,10 +104,10 @@ const TeamSection: React.FC = () => {
                       <Linkedin className="h-5 w-5" />
                     </a>
                   )}
-                  
+
                   {member.email && (
-                    <a 
-                      href={`mailto:${member.email}`}
+                    <a
+                      href={`https://mail.google.com/mail/?view=cm&fs=1&to=${member.email}`}
                       className="text-gray-400 hover:text-cyber-green transition-colors"
                       aria-label={`Email ${member.name}`}
                     >
@@ -147,18 +119,8 @@ const TeamSection: React.FC = () => {
             </div>
           ))}
         </div>
-        
-        <div className="mt-12 text-center">
-          <p className="text-gray-300 mb-4">
-            Interested in joining our core team? We're always looking for passionate individuals!
-          </p>
-          <a 
-            href="#contact"
-            className="inline-flex items-center px-6 py-3 bg-cyber-green text-cyber-blue font-medium rounded-md hover:bg-cyber-light-green transition-colors"
-          >
-            Apply to Join
-          </a>
-        </div>
+
+       
       </div>
     </section>
   );

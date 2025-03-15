@@ -13,8 +13,11 @@ const Footer: React.FC = () => {
           {/* Column 1 */}
           <div>
             <div className="flex items-center mb-4">
-              <Shield className="h-7 w-7 text-cyber-green mr-2" />
-              <span className="text-white text-xl font-bold">NITC<span className="text-cyber-green">Sec</span></span>
+            <img 
+    src="/csc-logo-white.png" 
+    alt="Club Logo" 
+    className="h-10 w-auto mr-2" 
+  />
             </div>
             <p className="text-gray-400 mb-6">
               Empowering digital defenders and building a community of cybersecurity enthusiasts at NIT Calicut.
